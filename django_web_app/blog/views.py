@@ -13,8 +13,35 @@ from .models import Post
 import operator
 from django.urls import reverse_lazy
 from django.contrib.staticfiles.views import serve
-
 from django.db.models import Q
+
+import hashlib
+
+# Unused Import
+import sys  # Positive Case – unused
+import os  # Negative Case – used
+print(os.name)
+
+# Flake8 Rules 
+# Line Too Long
+print("This is a very long line that exceeds the PEP8 79 character limit, so flake8 should complain about it.")  # Positive Case
+
+
+
+# bandit rule: md5()
+def weak_hash(password):
+    return hashlib.md5(password.encode()).hexdigest()  # Positive Case
+
+def strong_hash(password):
+    return hashlib.sha256(password.encode()).hexdigest()  # Negative Case
+
+
+# bandit rule: eval()
+def insecure_eval(user_input):
+    return eval(user_input)  # Positive Case – Bandit will flag this
+
+def secure_cast(user_input):
+    return int(user_input) * 2  # Negative Case – Safe alternative
 
 
 def home(request):
