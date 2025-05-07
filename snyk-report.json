@@ -1,0 +1,421 @@
+{
+  "vulnerabilities": [
+    {
+      "id": "SNYK-PYTHON-DJANGO-9634162",
+      "title": "Allocation of Resources Without Limits or Throttling",
+      "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+      "credit": [
+        "sw0rd1ight"
+      ],
+      "semver": {
+        "vulnerable": [
+          "[,5.0.14)",
+          "[5.1a1,5.1.8)",
+          "[5.2a1,5.2)"
+        ]
+      },
+      "exploit": "Not Defined",
+      "fixedIn": [
+        "5.0.14",
+        "5.1.8",
+        "5.2"
+      ],
+      "patches": [],
+      "insights": {
+        "triageAdvice": null
+      },
+      "language": "python",
+      "severity": "medium",
+      "cvssScore": 6.9,
+      "functions": [],
+      "malicious": false,
+      "isDisputed": false,
+      "moduleName": "django",
+      "references": [
+        {
+          "url": "https://www.djangoproject.com/weblog/2025/apr/02/security-releases",
+          "title": "Django Security Release"
+        },
+        {
+          "url": "https://github.com/django/django/commit/2cb311f7b069723027fb5def4044d1816d7d2afd",
+          "title": "GitHub Commit"
+        },
+        {
+          "url": "https://github.com/django/django/commit/39e2297210d9d2938c75fc911d45f0e863dc4821",
+          "title": "GitHub Commit"
+        },
+        {
+          "url": "https://github.com/django/django/commit/8c6871b097b6c49d2a782c0d80d908bcbe2116f1",
+          "title": "GitHub Commit"
+        },
+        {
+          "url": "https://github.com/django/django/commit/edc2716d01a6fdd84b173c02031695231bcee1f8",
+          "title": "GitHub Commit"
+        }
+      ],
+      "cvssDetails": [
+        {
+          "assigner": "Red Hat",
+          "severity": "medium",
+          "cvssV3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+          "cvssV3BaseScore": 5.8,
+          "modificationTime": "2025-04-29T07:22:33.769618Z"
+        }
+      ],
+      "cvssSources": [
+        {
+          "type": "primary",
+          "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:L",
+          "assigner": "Snyk",
+          "severity": "medium",
+          "baseScore": 6.9,
+          "cvssVersion": "4.0",
+          "modificationTime": "2025-04-03T07:21:42.625960Z"
+        },
+        {
+          "type": "secondary",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+          "assigner": "Snyk",
+          "severity": "medium",
+          "baseScore": 5.8,
+          "cvssVersion": "3.1",
+          "modificationTime": "2025-04-03T07:21:42.625960Z"
+        },
+        {
+          "type": "secondary",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+          "assigner": "Red Hat",
+          "severity": "medium",
+          "baseScore": 5.8,
+          "cvssVersion": "3.1",
+          "modificationTime": "2025-04-29T07:22:33.769618Z"
+        }
+      ],
+      "description": "## Overview\n[Django](https://pypi.org/project/Django/) is a high-level Python Web framework that encourages rapid development and clean, pragmatic design.\n\nAffected versions of this package are vulnerable to Allocation of Resources Without Limits or Throttling in `django.contrib.auth.views.LoginView`, `django.contrib.auth.views.LogoutView`, and `django.views.i18n.set_language()`, whose NFKC operations are inefficient. An attacker can cause degradation of performance by sending requests with a very large number of Unicode characters, which are subject to NFKC normalization. \n\n**Note:** This is only exploitable on Windows.\n## Remediation\nUpgrade `Django` to version 5.0.14, 5.1.8, 5.2 or higher.\n## References\n- [Django Security Release](https://www.djangoproject.com/weblog/2025/apr/02/security-releases)\n- [GitHub Commit](https://github.com/django/django/commit/2cb311f7b069723027fb5def4044d1816d7d2afd)\n- [GitHub Commit](https://github.com/django/django/commit/39e2297210d9d2938c75fc911d45f0e863dc4821)\n- [GitHub Commit](https://github.com/django/django/commit/8c6871b097b6c49d2a782c0d80d908bcbe2116f1)\n- [GitHub Commit](https://github.com/django/django/commit/edc2716d01a6fdd84b173c02031695231bcee1f8)\n",
+      "epssDetails": {
+        "percentile": "0.02565",
+        "probability": "0.00017",
+        "modelVersion": "v2025.03.14"
+      },
+      "identifiers": {
+        "CVE": [
+          "CVE-2025-27556"
+        ],
+        "CWE": [
+          "CWE-770"
+        ],
+        "GHSA": [
+          "GHSA-wqfg-m96j-85vm"
+        ]
+      },
+      "packageName": "django",
+      "proprietary": false,
+      "creationTime": "2025-04-03T07:21:42.287331Z",
+      "functions_new": [],
+      "alternativeIds": [],
+      "disclosureTime": "2025-04-02T15:31:37Z",
+      "exploitDetails": {
+        "sources": [],
+        "maturityLevels": [
+          {
+            "type": "secondary",
+            "level": "Not Defined",
+            "format": "CVSSv3"
+          },
+          {
+            "type": "primary",
+            "level": "Not Defined",
+            "format": "CVSSv4"
+          }
+        ]
+      },
+      "packageManager": "pip",
+      "publicationTime": "2025-04-03T07:21:42.538257Z",
+      "severityBasedOn": "CVSS",
+      "modificationTime": "2025-04-29T07:22:33.769618Z",
+      "socialTrendAlert": false,
+      "severityWithCritical": "medium",
+      "from": [
+        "Django-WebApp@0.0.0",
+        "django@4.2.20"
+      ],
+      "upgradePath": [],
+      "isUpgradable": false,
+      "isPatchable": false,
+      "name": "django",
+      "version": "4.2.20"
+    }
+  ],
+  "ok": false,
+  "dependencyCount": 6,
+  "org": "k212000",
+  "policy": "# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.\nversion: v1.25.1\nignore: {}\npatch: {}\n",
+  "isPrivate": true,
+  "licensesPolicy": {
+    "severities": {},
+    "orgLicenseRules": {
+      "AGPL-1.0": {
+        "licenseType": "AGPL-1.0",
+        "severity": "high",
+        "instructions": ""
+      },
+      "AGPL-3.0": {
+        "licenseType": "AGPL-3.0",
+        "severity": "high",
+        "instructions": ""
+      },
+      "Artistic-1.0": {
+        "licenseType": "Artistic-1.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "Artistic-2.0": {
+        "licenseType": "Artistic-2.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "CDDL-1.0": {
+        "licenseType": "CDDL-1.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "CPOL-1.02": {
+        "licenseType": "CPOL-1.02",
+        "severity": "high",
+        "instructions": ""
+      },
+      "EPL-1.0": {
+        "licenseType": "EPL-1.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "GPL-2.0": {
+        "licenseType": "GPL-2.0",
+        "severity": "high",
+        "instructions": ""
+      },
+      "GPL-3.0": {
+        "licenseType": "GPL-3.0",
+        "severity": "high",
+        "instructions": ""
+      },
+      "LGPL-2.0": {
+        "licenseType": "LGPL-2.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "LGPL-2.1": {
+        "licenseType": "LGPL-2.1",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "LGPL-3.0": {
+        "licenseType": "LGPL-3.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "MPL-1.1": {
+        "licenseType": "MPL-1.1",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "MPL-2.0": {
+        "licenseType": "MPL-2.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "MS-RL": {
+        "licenseType": "MS-RL",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "SimPL-2.0": {
+        "licenseType": "SimPL-2.0",
+        "severity": "high",
+        "instructions": ""
+      }
+    }
+  },
+  "packageManager": "pip",
+  "ignoreSettings": {
+    "adminOnly": false,
+    "reasonRequired": false,
+    "disregardFilesystemIgnores": false,
+    "autoApproveIgnores": false
+  },
+  "summary": "1 vulnerable dependency path",
+  "remediation": {
+    "unresolved": [
+      {
+        "id": "SNYK-PYTHON-DJANGO-9634162",
+        "title": "Allocation of Resources Without Limits or Throttling",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+        "credit": [
+          "sw0rd1ight"
+        ],
+        "semver": {
+          "vulnerable": [
+            "[,5.0.14)",
+            "[5.1a1,5.1.8)",
+            "[5.2a1,5.2)"
+          ]
+        },
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "5.0.14",
+          "5.1.8",
+          "5.2"
+        ],
+        "patches": [],
+        "insights": {
+          "triageAdvice": null
+        },
+        "language": "python",
+        "severity": "medium",
+        "cvssScore": 6.9,
+        "functions": [],
+        "malicious": false,
+        "isDisputed": false,
+        "moduleName": "django",
+        "references": [
+          {
+            "url": "https://www.djangoproject.com/weblog/2025/apr/02/security-releases",
+            "title": "Django Security Release"
+          },
+          {
+            "url": "https://github.com/django/django/commit/2cb311f7b069723027fb5def4044d1816d7d2afd",
+            "title": "GitHub Commit"
+          },
+          {
+            "url": "https://github.com/django/django/commit/39e2297210d9d2938c75fc911d45f0e863dc4821",
+            "title": "GitHub Commit"
+          },
+          {
+            "url": "https://github.com/django/django/commit/8c6871b097b6c49d2a782c0d80d908bcbe2116f1",
+            "title": "GitHub Commit"
+          },
+          {
+            "url": "https://github.com/django/django/commit/edc2716d01a6fdd84b173c02031695231bcee1f8",
+            "title": "GitHub Commit"
+          }
+        ],
+        "cvssDetails": [
+          {
+            "assigner": "Red Hat",
+            "severity": "medium",
+            "cvssV3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+            "cvssV3BaseScore": 5.8,
+            "modificationTime": "2025-04-29T07:22:33.769618Z"
+          }
+        ],
+        "cvssSources": [
+          {
+            "type": "primary",
+            "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:L",
+            "assigner": "Snyk",
+            "severity": "medium",
+            "baseScore": 6.9,
+            "cvssVersion": "4.0",
+            "modificationTime": "2025-04-03T07:21:42.625960Z"
+          },
+          {
+            "type": "secondary",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+            "assigner": "Snyk",
+            "severity": "medium",
+            "baseScore": 5.8,
+            "cvssVersion": "3.1",
+            "modificationTime": "2025-04-03T07:21:42.625960Z"
+          },
+          {
+            "type": "secondary",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L",
+            "assigner": "Red Hat",
+            "severity": "medium",
+            "baseScore": 5.8,
+            "cvssVersion": "3.1",
+            "modificationTime": "2025-04-29T07:22:33.769618Z"
+          }
+        ],
+        "description": "## Overview\n[Django](https://pypi.org/project/Django/) is a high-level Python Web framework that encourages rapid development and clean, pragmatic design.\n\nAffected versions of this package are vulnerable to Allocation of Resources Without Limits or Throttling in `django.contrib.auth.views.LoginView`, `django.contrib.auth.views.LogoutView`, and `django.views.i18n.set_language()`, whose NFKC operations are inefficient. An attacker can cause degradation of performance by sending requests with a very large number of Unicode characters, which are subject to NFKC normalization. \n\n**Note:** This is only exploitable on Windows.\n## Remediation\nUpgrade `Django` to version 5.0.14, 5.1.8, 5.2 or higher.\n## References\n- [Django Security Release](https://www.djangoproject.com/weblog/2025/apr/02/security-releases)\n- [GitHub Commit](https://github.com/django/django/commit/2cb311f7b069723027fb5def4044d1816d7d2afd)\n- [GitHub Commit](https://github.com/django/django/commit/39e2297210d9d2938c75fc911d45f0e863dc4821)\n- [GitHub Commit](https://github.com/django/django/commit/8c6871b097b6c49d2a782c0d80d908bcbe2116f1)\n- [GitHub Commit](https://github.com/django/django/commit/edc2716d01a6fdd84b173c02031695231bcee1f8)\n",
+        "epssDetails": {
+          "percentile": "0.02565",
+          "probability": "0.00017",
+          "modelVersion": "v2025.03.14"
+        },
+        "identifiers": {
+          "CVE": [
+            "CVE-2025-27556"
+          ],
+          "CWE": [
+            "CWE-770"
+          ],
+          "GHSA": [
+            "GHSA-wqfg-m96j-85vm"
+          ]
+        },
+        "packageName": "django",
+        "proprietary": false,
+        "creationTime": "2025-04-03T07:21:42.287331Z",
+        "functions_new": [],
+        "alternativeIds": [],
+        "disclosureTime": "2025-04-02T15:31:37Z",
+        "exploitDetails": {
+          "sources": [],
+          "maturityLevels": [
+            {
+              "type": "secondary",
+              "level": "Not Defined",
+              "format": "CVSSv3"
+            },
+            {
+              "type": "primary",
+              "level": "Not Defined",
+              "format": "CVSSv4"
+            }
+          ]
+        },
+        "packageManager": "pip",
+        "publicationTime": "2025-04-03T07:21:42.538257Z",
+        "severityBasedOn": "CVSS",
+        "modificationTime": "2025-04-29T07:22:33.769618Z",
+        "socialTrendAlert": false,
+        "packagePopularityRank": 96,
+        "from": [
+          "Django-WebApp@0.0.0",
+          "django@4.2.20"
+        ],
+        "upgradePath": [],
+        "isUpgradable": false,
+        "isPatchable": false,
+        "isPinnable": true,
+        "isRuntime": false,
+        "name": "django",
+        "version": "4.2.20",
+        "severityWithCritical": "medium"
+      }
+    ],
+    "upgrade": {},
+    "patch": {},
+    "ignore": {},
+    "pin": {
+      "django@4.2.20": {
+        "upgradeTo": "django@5.0.14",
+        "vulns": [
+          "SNYK-PYTHON-DJANGO-9634162"
+        ],
+        "isTransitive": false
+      }
+    }
+  },
+  "filesystemPolicy": false,
+  "filtered": {
+    "ignore": [],
+    "patch": []
+  },
+  "uniqueCount": 1,
+  "projectName": "Django-WebApp",
+  "displayTargetFile": "requirements.txt",
+  "hasUnknownVersions": false,
+  "path": "/home/kali/Django-WebApp"
+}

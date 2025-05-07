@@ -3,34 +3,37 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
-                sh 'pip install pylint bandit flake8'
+                sh 'pip install -r requirements.txt || true'
+                sh 'pip install pylint bandit semgrep || true'
             }
         }
         stage('Check Code Lint') {
             steps {
-                sh 'pylint webapp/ > lint-report.txt || true'
+                sh 'pylint django_web_app/ > lint-report.txt || true'
             }
         }
         stage('Check for Secret Keys') {
             steps {
-                sh 'grep -r "SECRET_KEY" webapp/ > secret-key-check.txt || true'
+                sh 'grep -r "SECRET_KEY" django_web_app/ > secret-key-check.txt || true'
             }
         }
         stage('Bandit Scan') {
             steps {
-                sh 'bandit -r webapp/ -f txt -o bandit-report.txt || true'
+                sh 'bandit -r django_web_app/ -f txt -o bandit-report.txt || true'
             }
         }
-        stage('Flake8 Lint') {
+        stage('Semgrep Scan') {
             steps {
-                sh 'flake8 webapp/ > flake8-report.txt || true'
+                sh 'semgrep --config "p/python" django_web_app/ > semgrep-report.txt || true'
             }
         }
-        stage('Dependency Check') {
+        stage('Snyk Dependency Scan') {
             steps {
+                // Ensure Snyk CLI is installed and authenticated before running this
                 sh '''
-                ./dependency-check/bin/dependency-check.sh --project "Django-WebApp" --scan . --format HTML --out dependency-report
+                snyk auth || true
+                snyk test --file=requirements.txt --severity-threshold=low || true
+                snyk test --file=requirements.txt --json > snyk-report.json || true
                 '''
             }
         }
