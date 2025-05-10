@@ -1,0 +1,43 @@
+                   
+                   
+┌─────────────────┐
+│ 4 Code Findings │
+└─────────────────┘
+                                
+  [36m[22m[24m  blog/views.py[0m
+    ❯❱ python.django.security.injection.sql.sql-injection-using-db-cursor-execute.sql-injection-db-cursor-execute
+          User-controlled data from a request is passed to 'execute()'. This could lead to a SQL injection and
+          therefore protected information could be leaked. Instead, use django's QuerySets, which are built   
+          with query parameterization and therefore not vulnerable to sql injection. For example, you could   
+          use `Entry.objects.filter(date=2006)`.                                                              
+          Details: https://sg.run/qx7y                                                                        
+                                                                                                              
+           33┆ user_id = request.GET.get('id')
+           34┆ with connection.cursor() as cursor:
+           35┆     cursor.execute(f"SELECT * FROM auth_user WHERE id = {user_id};")
+           36┆     result = cursor.fetchone()
+   
+    ❯❱ python.django.security.injection.reflected-data-httpresponse.reflected-data-httpresponse
+          Found user-controlled request data passed into HttpResponse. This could be vulnerable to XSS, 
+          leading to attackers gaining access to user cookies and protected information. Ensure that the
+          request data is properly escaped or sanitzed.                                                 
+          Details: https://sg.run/BkvA                                                                  
+                                                                                                        
+           51┆ name = request.GET.get("name", "")
+           52┆ return HttpResponse(f"Hello {name}")
+   
+    ❯❱ python.lang.security.insecure-hash-algorithms-md5.insecure-hash-algorithm-md5
+          Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and is
+          therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.               
+          Details: https://sg.run/vYrY                                                                   
+                                                                                                         
+           70┆ return hashlib.md5(password.encode()).hexdigest()  # Positive Case
+   
+    ❯❱ python.lang.security.audit.md5-used-as-password.md5-used-as-password
+          It looks like MD5 is used as a password hash. MD5 is not considered a secure password hash because  
+          it can be cracked by an attacker in a short amount of time. Use a suitable password hashing function
+          such as scrypt. You can use `hashlib.scrypt`.                                                       
+          Details: https://sg.run/5DwD                                                                        
+                                                                                                              
+           70┆ return hashlib.md5(password.encode()).hexdigest()  # Positive Case
+

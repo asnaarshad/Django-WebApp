@@ -19,8 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Negative Case (Secure) — run as nonroot:
 # Create a non-root user for security purposes
-RUN useradd -m nonroot
-USER nonroot
+#RUN useradd -m nonroot
+#USER nonroot
 
 # Expose port for the Django app
 EXPOSE 8000
