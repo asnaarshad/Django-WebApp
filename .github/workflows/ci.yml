@@ -1,0 +1,118 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+    env:
+      DJANGO_DIR: ./Django-WebApp/django_web_app
+      DJANGO_PORT: 8000
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Clone Django-WebApp Repository
+        run: |
+          rm -rf Django-WebApp
+          git clone https://github.com/asnaarshad/Django-WebApp.git
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Python Dependencies
+        run: |
+          cd $DJANGO_DIR
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt || true
+          pip install pylint bandit semgrep flake8 || true
+
+      - name: Start Django Server
+        run: |
+          cd $DJANGO_DIR
+          source venv/bin/activate
+          python manage.py migrate
+          nohup python manage.py runserver 0.0.0.0:$DJANGO_PORT &
+          sleep 10
+          curl -sSf http://localhost:$DJANGO_PORT > /dev/null || (echo "Django server failed to start" && exit 1)
+
+      - name: Pylint Check
+        run: |
+          cd $DJANGO_DIR
+          pylint . > lint-report.txt || true
+
+      - name: Flake8 Check
+        run: |
+          cd $DJANGO_DIR
+          flake8 . > flake8-report.txt || true
+
+      - name: Check for Secret Keys
+        run: |
+          cd $DJANGO_DIR
+          grep -r "SECRET_KEY" . > secret-key-check.txt || true
+
+      - name: Bandit Scan
+        run: |
+          cd $DJANGO_DIR
+          bandit -r . -f txt -o bandit-report.txt || true
+
+      - name: Semgrep Scan
+        run: |
+          cd $DJANGO_DIR
+          semgrep --config "p/python" . > semgrep-report.txt || true
+
+      - name: Snyk Auth & Scan
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd $DJANGO_DIR
+          npm install -g snyk
+          snyk auth $SNYK_TOKEN || true
+          snyk test --file=requirements.txt --severity-threshold=low || true
+          snyk test --file=requirements.txt --json > snyk-report.json || true
+
+      - name: DAST - OWASP ZAP Scan
+        run: |
+          docker run --network="host" -t owasp/zap2docker-stable zap-baseline.py -t http://localhost:8000 || true
+
+      - name: DAST - SQLMap Scan
+        run: |
+          sudo apt-get install -y sqlmap
+          sqlmap -u "http://localhost:8000/vulnerable_endpoint/?id=1" --batch || true
+
+      - name: Container Security - Trivy
+        run: |
+          cd $DJANGO_DIR
+          docker build -t django_webapp_scanned .
+          trivy image django_webapp_scanned || true
+
+      - name: Container Security - Docker Bench
+        run: |
+          git clone https://github.com/docker/docker-bench-security.git || true
+          cd docker-bench-security
+          sudo bash docker-bench-security.sh || true
+
+      - name: IaC Security - Conftest
+        run: |
+          conftest test terraform/ || true
+
+      - name: IaC Security - Checkov
+        run: |
+          pip install checkov
+          checkov -d terraform/ || true
+
+      - name: Upload Reports as Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: scan-reports
+          path: |
+            **/*.txt
+            **/*.json
