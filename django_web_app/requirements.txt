@@ -1,0 +1,12 @@
+# Negative Case (Safe)
+
+Django==4.2
+requests==2.31.0
+
+# Positive Case (Vulnerable)
+
+# Django==1.11.29
+# requests==2.2.1
+
+# These old versions contain known CVEs and will be flagged by OWASP Dependency-Check.
+django-crispy-forms

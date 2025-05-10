@@ -22,6 +22,43 @@ import sys  # Positive Case – unused
 import os  # Negative Case – used
 print(os.name)
 
+
+# Rule 1: SQL Injection
+# Tool: SQLMap
+# Positive Case (Vulnerable) 
+from django.http import HttpResponse
+from django.db import connection
+
+def vulnerable_sql(request):
+    user_id = request.GET.get('id')
+    with connection.cursor() as cursor:
+        cursor.execute(f"SELECT * FROM auth_user WHERE id = {user_id};")
+        result = cursor.fetchone()
+    return HttpResponse(f"User: {result}")
+
+# Negative Case (Secure)
+def secure_sql(request):
+    user_id = request.GET.get('id')
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM auth_user WHERE id = %s;", [user_id])
+        result = cursor.fetchone()
+    return HttpResponse(f"User: {result}")
+
+# Rule 2: XSS (Cross-Site Scripting)
+# Tool: OWASP ZAP
+# Positive Case
+def xss_vulnerable(request):
+    name = request.GET.get("name", "")
+    return HttpResponse(f"Hello {name}")
+
+# Negative Case (Secure)
+from django.utils.html import escape
+
+def xss_secure(request):
+    name = escape(request.GET.get("name", ""))
+    return HttpResponse(f"Hello {name}")
+
+
 # Flake8 Rules 
 # Line Too Long
 print("This is a very long line that exceeds the PEP8 79 character limit, so flake8 should complain about it.")  # Positive Case
